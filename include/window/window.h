@@ -15,11 +15,14 @@ public:
     ~Window();
 
     bool Init();
+    void LoadFonts();
     void Shutdown();
 
     bool IsOpen();
     void BeginFrame();
     void EndFrame();
+
+    void ApplyTheme();
 
     GLFWwindow *m_handle = nullptr;
 };

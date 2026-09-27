@@ -28,5 +28,7 @@ void App::Run()
 }
 
 void App::Render() {
+    ImGui::ShowStyleEditor();
     m_layout.Render();
+    m_diagram.Render();
 }

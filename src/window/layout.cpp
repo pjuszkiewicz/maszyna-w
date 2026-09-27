@@ -93,27 +93,22 @@ void Layout::RenderDockingContainer()
         ImGuiID dock_id_center;
         ImGui::DockBuilderSplitNode(dock_id_left_and_center, ImGuiDir_Left, 0.25f, &dock_id_left, &dock_id_center);
 
-        ImGui::DockBuilderDockWindow("Pliki projektu", dock_id_left);
-        ImGui::DockBuilderDockWindow("Schemat Procesora", dock_id_center);
-        ImGui::DockBuilderDockWindow("Inspektor Atrybutów", dock_id_right);
+        ImGui::DockBuilderDockWindow("Pliki", dock_id_left);
+        ImGui::DockBuilderDockWindow("Schemat", dock_id_center);
+        ImGui::DockBuilderDockWindow("Inspektor", dock_id_right);
 
         ImGui::DockBuilderFinish(dockspace_id);
     }
 
-    ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None);
+    ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_NoWindowMenuButton);
     ImGui::End();
 
-    // -------------------------------------------------------------------
-    // D. OKNA PODRZĘDNE
-    // -------------------------------------------------------------------
-    ImGui::Begin("Pliki projektu");
-    ImGui::Text("Drzewo plików...");
+    ImGui::Begin("Pliki");
     ImGui::End();
 
     // DrawCpuDiagram(); // Nazwa okna wewnątrz tej funkcji to "Schemat Procesora"
 
-    ImGui::Begin("Inspektor Atrybutów");
-    ImGui::Text("Atrybuty i parametry...");
+    ImGui::Begin("Inspektor");
     ImGui::End();
 }
 
@@ -134,18 +129,19 @@ void Layout::RenderTopBar()
     ImGui::Begin("EngineDockSpaceWindow", nullptr, window_flags);
     ImGui::PopStyleVar(3);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8.0f, 6.0f));
-    ImGui::BeginChild("SimulationToolbar", ImVec2(0, 38.0f), false, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 
-    ImGui::Button(" Play ");
+    ImGui::BeginChild("SimulationToolbar", ImVec2(0, 28.0f), false, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+    ImGui::SetCursorPos(ImVec2(5.0f, 5.0f));
+
+    ImGui::Button(" Uruchom ");
     ImGui::SameLine();
-    ImGui::Button(" Pause ");
-    ImGui::SameLine();
-    ImGui::Button(" Step ");
+    ImGui::Button(" Krok ");
     ImGui::SameLine();
     ImGui::Button(" Stop ");
+    ImGui::SameLine();
 
     ImGui::EndChild();
     ImGui::PopStyleVar();
 
-    ImGui::Separator(); // Oddzielenie paska narzędzi od obszaru okien edytora
+    ImGui::Separator();
 }
