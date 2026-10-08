@@ -11,6 +11,9 @@ bool App::Init()
         return false;
     }
 
+    ImFont* editorFont = m_window.GetEditorFont();
+    m_codeEditor.SetFont(editorFont);
+
     return true;
 }
 
@@ -28,7 +31,8 @@ void App::Run()
 }
 
 void App::Render() {
-    ImGui::ShowStyleEditor();
     m_layout.Render();
     m_diagram.Render();
+    m_codeEditor.Render();
+    m_memoryEditor.Render();
 }

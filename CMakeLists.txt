@@ -6,7 +6,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(OpenGL REQUIRED)
 
-# GLFW
+# ==========================================
+# ZALEŻNOŚCI (GLFW)
+# ==========================================
 include(FetchContent)
 FetchContent_Declare(
     glfw
@@ -18,7 +20,10 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(glfw)
 
-# VENDOR
+# ==========================================
+# PLIKI ŹRÓDŁOWE
+# ==========================================
+# ImGui
 set(IMGUI_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui)
 set(IMGUI_SOURCES
     ${IMGUI_DIR}/imgui.cpp
@@ -30,23 +35,46 @@ set(IMGUI_SOURCES
     ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
 )
 
-# Szuka wszystkich plików .cpp wewnątrz folderu src/ (i jego podfolderach)
-# Wynik zapisuje do zmiennej APP_SOURCES
+# ImGuiColorTextEdit
+set(TEXT_EDITOR_SOURCES 
+    ${CMAKE_CURRENT_SOURCE_DIR}/vendor/ImGuiColorTextEdit/TextEditor.cpp
+)
+
+# Pliki Twojej aplikacji
 file(GLOB_RECURSE APP_SOURCES CONFIGURE_DEPENDS "src/*.cpp")
 
-# Tworzy plik wykonywalny z połączonych plików Twojej aplikacji i ImGui
-add_executable(${PROJECT_NAME} ${APP_SOURCES} ${IMGUI_SOURCES})
 
-# INCLUDE
+# ==========================================
+# TWORZENIE CELU (PLIKU WYKONYWALNEGO)
+# ==========================================
+# Najpierw tworzymy target, łącząc wszystkie źródła
+add_executable(${PROJECT_NAME} 
+    ${APP_SOURCES} 
+    ${IMGUI_SOURCES}
+    ${TEXT_EDITOR_SOURCES}
+)
+
+# ==========================================
+# KONFIGURACJA CELU (INCLUDE I BIBLIOTEKI)
+# ==========================================
+# Ścieżki nagłówkowe (zgrupowane w jednym miejscu)
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${IMGUI_DIR}
     ${IMGUI_DIR}/backends
+    ${CMAKE_CURRENT_SOURCE_DIR}/vendor/ImGuiColorTextEdit
 )
 
-# BIBLIOTEKI
+# Linkowanie bibliotek
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     glfw 
     OpenGL::GL
 )
 
+# Kopiuje cały katalog assets do folderu, w którym powstaje plik wykonywalny
+add_custom_command(
+    TARGET MaszynaW POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/assets"
+            "$<TARGET_FILE_DIR:MaszynaW>/assets"
+)

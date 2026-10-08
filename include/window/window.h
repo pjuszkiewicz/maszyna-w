@@ -24,5 +24,8 @@ public:
 
     void ApplyTheme();
 
+    ImFont *GetEditorFont() const { return m_editorFont; }
+
     GLFWwindow *m_handle = nullptr;
+    ImFont *m_editorFont = nullptr;
 };

@@ -47,39 +47,15 @@ void Window::LoadFonts()
 {
     ImGuiIO &io = ImGui::GetIO();
 
-    static const ImWchar latin_ranges[] = {
-        0x0020,
-        0x00FF, // Basic Latin + Latin Supplement
-        0x0100,
-        0x017F, // Latin Extended-A (Zawiera polskie znaki)
-        0,
-    };
-
-    // 16.0f lub 18.0f to idealny rozmiar bazowy dla 1080p
     float fontSize = 16.0f;
 
-    // 1. Konfiguracja głównej czcionki (Inter)
     ImFontConfig config;
-    config.OversampleH = 3;   // Znacznie poprawia ostrość krawędzi (antyaliasing)
-    config.OversampleV = 1;   // W pionie nie trzeba oversamplować (oszczędza pamięć)
-    config.PixelSnapH = true; // Wyrównuje litery do pełnych pikseli, zapobiegając rozmyciu
+    config.OversampleH = 3;
+    config.OversampleV = 1;
+    config.PixelSnapH = true;
 
-    // Ładujemy czcionkę Inter (tylko polskie i angielskie znaki)
-    io.Fonts->AddFontFromFileTTF("assets/fonts/Geist-Regular.ttf", fontSize, &config, latin_ranges);
-
-    // 2. Konfiguracja czcionki chińskiej jako Fallback (MergeMode)
-    ImFontConfig chinese_config;
-    chinese_config.MergeMode = true; // Łączy tę czcionkę z wyżej załadowanym Interem
-    chinese_config.OversampleH = 2;  // Chińskie znaki są gęstsze, x2 wystarczy, by nie pożerać VRAM
-    chinese_config.OversampleV = 1;
-    chinese_config.PixelSnapH = true;
-
-    // Zakres znaków chińskich
-    const ImWchar *chinese_ranges = io.Fonts->GetGlyphRangesChineseFull();
-
-    // BARDZO WAŻNE: Tutaj ładujemy inną czcionkę, która fizycznie ma w sobie chińskie znaki!
-    // Pobierz darmową czcionkę NotoSansSC-Regular.ttf i wrzuć ją do folderu assets/fonts/
-    // io.Fonts->AddFontFromFileTTF("assets/fonts/NotoSansSC-Regular.ttf", fontSize, &chinese_config, chinese_ranges);
+    io.Fonts->AddFontFromFileTTF("assets/fonts/Geist-Regular.ttf", fontSize, &config);
+    m_editorFont = io.Fonts->AddFontFromFileTTF("assets/fonts/SourceCodePro-Regular.ttf", fontSize, &config);
 }
 
 bool Window::IsOpen()

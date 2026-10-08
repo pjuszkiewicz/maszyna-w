@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <vector>
 #include <string>
+#include "diagram/colors.h"
+#include "diagram/canvas.h"
 
 struct CpuBlock
 {
@@ -24,17 +26,13 @@ public:
     void Render();
 
 private:
-    void Update();
-
-    ImVec2 DrawRect(ImVec2 pos, ImVec2 size);
     ImVec2 DrawBlock(CpuBlock &block, int id);
-    void DrawOption(ImVec2 pos, const std::string& name);
-    void DrawLine(ImVec2 a, ImVec2 b, bool isActive);
+
+    void DrawOption(ImVec2 pos, const std::string& name, bool isActive = false, bool isReverse = false);
 
     void Draw();
     void DrawALU();
+    void DrawMemory();
 
-    ImDrawList *m_drawList;
-    ImVec2 m_canvasPos;
-    ImVec2 m_mousePos;
+    Canvas m_canvas;
 };

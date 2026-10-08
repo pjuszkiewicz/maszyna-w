@@ -1,0 +1,14 @@
+#pragma once
+
+#include "imgui.h"
+
+
+
+const ImU32 BUS_COLOR = IM_COL32(0, 0, 0, 255);
+const ImU32 BUS_COLOR_ACTIVE = IM_COL32(255, 0, 0, 255);
+
+const ImU32 BLOCK_BACKGROUND_COLOR = IM_COL32(255, 255, 255, 255);
+const ImU32 BLOCK_BORDER_COLOR = IM_COL32(0, 0, 0, 255);
+
+const ImU32 TEXT_COLOR = IM_COL32(0, 0, 0, 255);
+
